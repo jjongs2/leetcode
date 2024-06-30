@@ -1,7 +1,6 @@
 class UnionFind:
     def __init__(self, n):
         self.parents = list(range(n + 1))
-        self.sizes = [1 for _ in range(n + 1)]
 
     def find(self, v):
         while (p := self.parents[v]) != v:
@@ -11,11 +10,8 @@ class UnionFind:
 
     def union(self, v1, v2):
         p1, p2 = self.find(v1), self.find(v2)
-        if p1 == p2:
-            return False
         self.parents[p2] = p1
-        self.sizes[p1] += self.sizes[p2]
-        return True
+        return p1 != p2
 
 
 class Solution:
