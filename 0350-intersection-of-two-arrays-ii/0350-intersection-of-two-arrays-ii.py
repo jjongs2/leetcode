@@ -3,5 +3,10 @@ from collections import Counter
 
 class Solution:
     def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        c1, c2 = Counter(nums1), Counter(nums2)
-        return [n for n in c1 if n in c2 for _ in range(min(c1[n], c2[n]))]
+        result = []
+        counter = Counter(nums1)
+        for num in nums2:
+            if counter[num] > 0:
+                counter[num] -= 1
+                result.append(num)
+        return result
