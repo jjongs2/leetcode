@@ -7,9 +7,11 @@ class Solution:
                 return len(substrings)
             max_count = 0
             for end in range(start + 1, n + 1):
-                substring = s[start:end]
-                if substring not in substrings:
-                    max_count = max(max_count, backtrack(end, substrings | {substring}))
+                if (substring := s[start:end]) in substrings:
+                    continue
+                if len(substrings) + n - end < max_count:
+                    break
+                max_count = max(max_count, backtrack(end, substrings | {substring}))
             return max_count
 
         return backtrack(0, set())
