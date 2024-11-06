@@ -3,24 +3,19 @@ from math import inf
 
 class Solution:
     def canSortArray(self, nums: List[int]) -> bool:
-        prev_min = curr_min = inf
         prev_max = curr_max = -inf
         prev_bits = 0
         bits = dict()
-        nums.append(0)
         for num in nums:
-            if num not in bits:
-                bits[num] = num.bit_count()
-            curr_bits = bits[num]
+            curr_bits = bits.setdefault(num, num.bit_count())
             if curr_bits == prev_bits:
-                if num < curr_min:
-                    curr_min = num
-                elif num > curr_max:
-                    curr_max = num
+                if num < prev_max:
+                    return False
+                curr_max = max(curr_max, num)
                 continue
-            if prev_max > curr_min:
+            if num < curr_max:
                 return False
+            prev_max = curr_max
+            curr_max = num
             prev_bits = curr_bits
-            prev_min, prev_max = curr_min, curr_max
-            curr_min = curr_max = num
         return True
