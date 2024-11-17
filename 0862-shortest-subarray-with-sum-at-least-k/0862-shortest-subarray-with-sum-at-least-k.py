@@ -5,7 +5,7 @@ from math import inf
 class Solution:
     def shortestSubarray(self, nums: List[int], k: int) -> int:
         n = len(nums)
-        psums = [0 for _ in range(n + 1)]
+        psums = [0] * (n + 1)
         for i, num in enumerate(nums):
             psums[i + 1] = psums[i] + num
         result = inf
