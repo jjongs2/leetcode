@@ -1,13 +1,10 @@
-from collections import Counter
-
-
 class Solution:
     def checkIfExist(self, arr: List[int]) -> bool:
-        counter = Counter(arr)
+        seen = set()
         for num in arr:
-            if num == 0:
-                if counter[0] > 1:
-                    return True
-            elif 2 * num in counter:
+            if 2 * num in seen:
                 return True
+            if num % 2 == 0 and num // 2 in seen:
+                return True
+            seen.add(num)
         return False
