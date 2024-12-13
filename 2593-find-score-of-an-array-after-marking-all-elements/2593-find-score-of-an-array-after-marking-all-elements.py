@@ -1,16 +1,17 @@
-from heapq import heapify, heappop
+from math import inf
 
 
 class Solution:
     def findScore(self, nums: List[int]) -> int:
-        is_marked = [False] * (len(nums) + 1)
-        heap = [(num, i) for i, num in enumerate(nums)]
-        heapify(heap)
+        nums.append(inf)
         score = 0
-        while heap:
-            num, i = heappop(heap)
-            if is_marked[i]:
+        stack = []
+        for num in nums:
+            if not stack or stack[-1] > num:
+                stack.append(num)
                 continue
-            is_marked[i] = is_marked[i - 1] = is_marked[i + 1] = True
-            score += num
+            for i in range(len(stack)):
+                top = stack.pop()
+                if i % 2 == 0:
+                    score += top
         return score
