@@ -10,8 +10,8 @@ class Solution:
             if not stack or stack[-1] > num:
                 stack.append(num)
                 continue
-            for i in range(len(stack)):
-                top = stack.pop()
+            for i, n in enumerate(reversed(stack)):
                 if i % 2 == 0:
-                    score += top
+                    score += n
+            stack = []
         return score
