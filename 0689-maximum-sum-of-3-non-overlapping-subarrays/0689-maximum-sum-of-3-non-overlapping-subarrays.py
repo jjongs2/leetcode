@@ -7,15 +7,11 @@ class Solution:
         for curr in range(1, n):
             prev = curr - 1
             subsums[curr] = subsums[prev] - nums[prev] + nums[prev + k]
-        dp = [[(0, []) for _ in range(4)] for _ in range(n)]
-        for i in range(k):
-            curr = dp[i][1] = dp[i - 1][1]
-            if curr[0] < subsums[i]:
-                dp[i][1] = (subsums[i], [i])
-        for i in range(k, n):
+        maxsums = [(0, ()) for _ in range(4)]
+        for i in range(n - 2 * k):
             for j in range(1, 4):
-                curr = dp[i][j] = dp[i - 1][j]
-                prev = dp[i - k][j - 1]
-                if curr[0] < prev[0] + subsums[i]:
-                    dp[i][j] = (prev[0] + subsums[i], prev[1] + [i])
-        return dp[-1][-1][1]
+                maxsum, indices = maxsums[j - 1]
+                if maxsums[j][0] - maxsum < subsums[i]:
+                    maxsums[j] = (maxsum + subsums[i], indices + (i,))
+                i += k
+        return maxsums[-1][1]
