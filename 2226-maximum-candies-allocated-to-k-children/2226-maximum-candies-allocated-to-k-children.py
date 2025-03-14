@@ -1,12 +1,7 @@
 class Solution:
     def maximumCandies(self, candies: List[int], k: int) -> int:
         def is_possible(pile_size):
-            pile_count = 0
-            for candy in candies:
-                pile_count += candy // pile_size
-                if pile_count >= k:
-                    return True
-            return False
+            return sum(candy // pile_size for candy in candies) >= k
 
         low, high = 0, max(candies) + 1
         while high - low > 1:
