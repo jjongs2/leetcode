@@ -2,14 +2,14 @@ class Solution:
     def lexicalOrder(self, n: int) -> List[int]:
         result = []
 
-        def dfs(num):
-            result.append(num)
-            for digit in range(10):
-                next_num = num * 10 + digit
-                if next_num > n:
-                    break
-                dfs(next_num)
+        def helper(num):
+            for k in range(num, num + 10):
+                if k <= n:
+                    result.append(k)
+                    helper(10 * k)
 
-        for i in range(1, min(10, n + 1)):
-            dfs(i)
+        for k in range(1, 10):
+            if k <= n:
+                result.append(k)
+                helper(10 * k)
         return result
