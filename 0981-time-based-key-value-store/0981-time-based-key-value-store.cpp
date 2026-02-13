@@ -3,21 +3,31 @@ public:
     TimeMap() {}
 
     void set(string key, string value, int timestamp) {
-        outer_map[key][timestamp] = value;
+        store[key].emplace_back(timestamp, value);
     }
 
     string get(string key, int timestamp) {
-        const auto& inner_map = outer_map[key];
-        if (inner_map.empty())
+        if (store.find(key) == store.end() || timestamp < store[key][0].first)
             return "";
-        auto it = inner_map.upper_bound(timestamp);
-        if (it == inner_map.begin())
-            return "";
-        return (--it)->second;
+
+        const auto& vec = store[key];
+        int low = 0;
+        int high = vec.size();
+
+        while (high - low > 1) {
+            int mid = (low + high) / 2;
+
+            if (vec[mid].first <= timestamp) {
+                low = mid;
+            } else {
+                high = mid;
+            }
+        }
+        return vec[low].second;
     }
 
 private:
-    unordered_map<string, map<int, string>> outer_map;
+    unordered_map<string, vector<pair<int, string>>> store;
 };
 
 /**
